@@ -1,0 +1,67 @@
+[
+ {
+  "patient": "patient_04",
+  "q_no": 1,
+  "correct": "Fracture of the right wrist",
+  "predicted": "A",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 61.3,
+  "local_tokens": 12317,
+  "remote_tokens": 4517,
+  "final_answer": "Based on the medical records and the verification of diagnoses associated with Mrs. Anderson:\n- (A) Luxation of the shoulder joint was diagnosed on 07/08/2014.\n- (B) Fracture tuberculum majus humeri was diagnosed on 07/08/2014.\n- (C) Ankle sprain on the right side was diagnosed on 02/01/2015.\n- (D) Mild skin itching was noted in 2021 and 2023 associated with jaundice/cholestasis.\n- (E) Fracture of the right wrist has no record of occurrence.\n\nTherefore, the diagnosis Mrs. Anderson was NOT associ",
+  "match_fixed": false
+ },
+ {
+  "patient": "patient_08",
+  "q_no": 1,
+  "correct": "Splenomegaly",
+  "predicted": "C",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 46.8,
+  "local_tokens": 10413,
+  "remote_tokens": 4341,
+  "final_answer": "Based on the review of Laura Miller's CT of the thoracic spine, the report noted additional incidental findings including liver cirrhosis, splenomegaly, and gallbladder hydrops. Among the provided options, Gallbladder Hydrops (C) is one of the key findings identified in the CT report. Therefore, the correct option is (C).",
+  "match_fixed": false
+ },
+ {
+  "patient": "patient_12",
+  "q_no": 1,
+  "correct": "PTCA + stent in RIVA",
+  "predicted": "D",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 51.4,
+  "local_tokens": 13365,
+  "remote_tokens": 3356,
+  "final_answer": "Based on the medical records and the information retrieved, Mr. Fisher underwent a Percutaneous Transluminal Coronary Angioplasty (PTCA) along with stent placement in the RIVA in May 1995. This matches option (D).\n\n(D)",
+  "match_fixed": true
+ },
+ {
+  "patient": "patient_16",
+  "q_no": 1,
+  "correct": "Diabetes Mellitus",
+  "predicted": "C",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 45.8,
+  "local_tokens": 11332,
+  "remote_tokens": 3686,
+  "final_answer": "Based on a review of Mr. Chapman's medical records prior to his admission on 04/03/2017, his past medical history includes a status post rib fracture (2005), appendectomy (2006), distal radius fracture (2008), and elbow fracture (2010). However, he does not have a history of Diabetes Mellitus. Therefore, the correct option is (C).\n\n(C)",
+  "match_fixed": true
+ },
+ {
+  "patient": "patient_20",
+  "q_no": 1,
+  "correct": "3 years",
+  "predicted": "C",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 44.3,
+  "local_tokens": 12223,
+  "remote_tokens": 3256,
+  "final_answer": "Based on the clinical history provided, Mrs. Sanders had been experiencing recurrent respiratory infections for approximately 3 years prior to 2016. Matching this duration to the given options, the correct choice is (C).\n\n(C) 3 years",
+  "match_fixed": true
+ }
+]

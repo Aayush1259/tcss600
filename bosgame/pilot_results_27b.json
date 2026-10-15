@@ -1,0 +1,67 @@
+[
+ {
+  "patient": "patient_03",
+  "q_no": 0,
+  "correct": "B and C",
+  "predicted": "B",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 60.0,
+  "local_tokens": 13282,
+  "remote_tokens": 3874,
+  "final_answer": "Based on the medical records from October 2015 regarding Mr. John Williams, osteolysis was specifically detected in the seventh thoracic vertebra (T7), while a pathologic fracture was observed in the first lumbar vertebra (L1). Therefore, the correct option corresponding to the location where osteolysis was detected is (B).",
+  "match_fixed": false
+ },
+ {
+  "patient": "patient_07",
+  "q_no": 0,
+  "correct": "Selective excision of the left breast after ultrasound-guided fine needle marking and sentinel lymph node biopsy",
+  "predicted": "C",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 45.0,
+  "local_tokens": 11298,
+  "remote_tokens": 3499,
+  "final_answer": "Based on the tumor board decision for Mrs. Linda Mayer, if her BRCA testing returns negative, the recommended course of action is (C) Selective excision of the left breast after ultrasound-guided fine needle marking and sentinel lymph node biopsy.",
+  "match_fixed": true
+ },
+ {
+  "patient": "patient_11",
+  "q_no": 0,
+  "correct": "Neutropenic fever",
+  "predicted": "B",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 50.7,
+  "local_tokens": 13234,
+  "remote_tokens": 3322,
+  "final_answer": "Based on the medical records and the information retrieved from the small language model, Mr. Hurley's initial reason for hospital admission in October 2019 was neutropenic fever (he reported temperatures up to 39\u00b0C for the past 3 days). Comparing this finding with the available options, it corresponds to option (B).\n\n(B)",
+  "match_fixed": true
+ },
+ {
+  "patient": "patient_15",
+  "q_no": 0,
+  "correct": "Bronchopneumonia",
+  "predicted": "B",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 46.5,
+  "local_tokens": 11673,
+  "remote_tokens": 3682,
+  "final_answer": "Based on the medical records and the clarification regarding Mr. Davies' inpatient admission in 2009 (noting the April 2009 admission rather than September 2009), his primary diagnosis was bronchopneumonia (with underlying classic galactosemia). Therefore, the correct option is (B).\n\n(B)",
+  "match_fixed": true
+ },
+ {
+  "patient": "patient_19",
+  "q_no": 0,
+  "correct": "Hypoplastic Left Heart Syndrome",
+  "predicted": "A",
+  "grade_how": "auto",
+  "match": false,
+  "wall_time_s": 50.3,
+  "local_tokens": 13312,
+  "remote_tokens": 4056,
+  "final_answer": "Based on the medical records, the patient (referred to as Emil Nilsson) was diagnosed with Hypoplastic Left Heart Syndrome. Matching this diagnosis to the available options (A) Atrial Septal Defect, (B) Ventricular Septal Defect, (C) Hypoplastic Left Heart Syndrome, (D) Tetralogy of Fallot, and (E) Transposition of the Great Arteries, the correct choice is (C).\n\n(C)",
+  "match_fixed": false
+ }
+]
