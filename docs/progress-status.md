@@ -24,19 +24,18 @@ Independent study, TCSS 600, Prof. Wei Cai. Week 3 of 10 (Oct 15 to 21). Weekly2
 - Found and fixed a harness bug: Ollama's `think` flag was passed inside `options`, where the API silently ignores it, so "think-off" runs were actually thinking. `think` is a top-level chat parameter. The affected run was relabeled honestly as the think-on reference.
 - Found that a 500-token output cap cripples both think conditions (think-on: thinking consumed the whole budget, leaving empty answers; think-off: the model narrates evidence in the open and never reaches its choice). Both conditions now use a 1200-token budget.
 - 4B local-only design: each record is split into ~1,500-token chunks; one worker call per chunk using native Ollama JSON mode (`{"letter": "B"}`), because the 4B cannot answer reliably in free text (it narrates the excerpt instead); final answer is the majority vote over chunk letters, ties broken by the earliest chunk. Design note: `docs/decision-4b-local-only-design.md`.
-- Baseline results on the 20 warmup questions (all at the 1200-token budget):
-  - 27B local-only, think on: **12/20 correct**, 5 flagged for hand-check.
-  - 27B local-only, think off: **3/20 correct by the rule-based grader, 15 flagged for hand-check.** The flagged rows decide whether this is an answer-format problem or a real quality drop; hand-check in progress.
+- Baseline results on the 20 warmup questions (all at the 1200-token budget), after hand-checking every answer the rule-based grader could not parse:
+  - 27B local-only, think on: **15/20 correct**. The grader alone scored 12/20; of the 5 flagged answers, 3 were correct in substance and 2 came back empty because the hidden thinking consumed the full output budget.
+  - 27B local-only, think off: **15/20 correct**. The grader alone scored 3/20, which was an artifact: think-off answers usually state their choice as a bare trailing letter or a bare "(C)" line, formats the grader does not parse. Of the 15 flagged, 12 were correct in substance, 1 was genuinely wrong, and 2 hit the output cap mid-reasoning and never chose.
   - 4B local-only (chunked, JSON-mode votes): **10/20 correct**, 0 hand-checks.
-  - Cloud-only (gemini-3.8-flash alone): in progress (free-tier rate limit, 5 requests/minute, interrupted the first run; resuming).
+  - Cloud-only (gemini-3.8-flash alone): **14/20 correct** (grader 12/20, both flagged answers correct in substance). Total measured cost $0.1991, about $0.00996 per question.
+  - Thinking-off verdict: think-off and think-on finish level at 15/20, so turning thinking off does not reduce quality on the warmup set. Full verdict table: `docs/handcheck-results.md`.
 - Measured supervisor cost: one cloud-only question = 11,967 input / 48 output / 142 thinking tokens, about $0.0097.
 
 ## What is pending (this week)
 
-- Finish the cloud-only baseline (20/20).
-- Hand-check the flagged baseline rows (think-off 15, think-on 5) and finalize the baseline table.
-- Finalize the cost estimate with Prof. Cai's breakdown and the billing decision.
-- Write and submit Weekly261021 (due Wed Oct 21, night).
+- Weekly261021 report: drafted, with the final baseline table, the thinking-off verdict, and the reconciled cost estimate (9,204 calls including the 30% debugging allowance; $66.05 expected, $85.11 worst case). Submitting Wednesday night, Oct 21.
+- The billing decision is stated in the report as self-pay on gemini-3.8-flash unless Prof. Cai prefers otherwise.
 
 ## Open decisions
 
