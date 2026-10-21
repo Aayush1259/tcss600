@@ -13,7 +13,7 @@ Independent study, TCSS 600, Prof. Wei Cai. Week 3 of 10 (Oct 15 to 21). Weekly2
 - Read Fang et al. (arXiv:2509.24050): same escalation question as RQ1, solved with RL post-training. Their finding that prompt surface features fail at routing supports the logprobs-based signal premise of RQ1.
 
 **Oct 15 to 17:**
-- Received Prof. Cai's feedback on Weekly Report 1. Full response in `docs/feedback-oct15-response.md`.
+- Received Prof. Cai's feedback on Weekly Report 1; my response to each point is in the Weekly261021 report.
 - Hand-verified all 10 pilot answers against the gold labels: **8 of 10 confirmed, 1 ambiguous** (patient_08 q1: the CT report lists both candidate findings, so the question itself is ambiguous; useful for RQ1), **1 inconclusive** (patient_04 q1: the pilot saved only the first 500 characters of the answer, so it cannot be verified; the new harness saves full answers).
 - Models frozen: worker `qwen3:4b` (the proposal's `qwen3.5:4b` was a naming error, corrected in the proposal), supervisor `gemini-3.8-flash` (health test passed Oct 17).
 - Question sets frozen: warmup = question index 2 for all 20 patients (20 questions); eval = indices 3 to 12 for all 20 patients (200 questions). Zero overlap with the pilot questions, verified. Padding frozen at N = 0 (each question's own case only).

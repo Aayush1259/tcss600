@@ -26,12 +26,12 @@ Workers: `qwen3.8:27b` on the lab machine (bosgame), `qwen3:4b` on a laptop. Sup
   - `cloud_only.py`: Supervisor alone on the full record (bosgame).
   - `local_only_4b_chunked.py`: 4B worker alone over ~1,500-token record chunks with majority voting (laptop).
   - `regrade.py`: Regrades a finished run log with the current grader, without rerunning models.
-  - `probe_38flash_quota.py`: Measures the gemini-3.8-flash free-tier daily request limit with 10 small calls.
+  - `handcheck_extract.py`: Extracts the answers the grader flagged, for hand verification.
 - `docs/`: Study documents.
-  - `lab-machine-setup-log.md`, `lab-machine-commands-explained.md`: Lab machine setup, step by step.
-  - `week3-plan.md`: Week 3 plan (verification, harness, baselines, cost estimate, report).
+  - `lab-machine-setup-log.md`: Lab machine setup, step by step.
+  - `lab-machine-log.md`: Lab machine sessions and hours against the proposal plan.
   - `progress-status.md`: Current status: what is done, what is pending, open decisions.
-  - `feedback-oct15-response.md`: Prof. Cai's feedback on Weekly Report 1 and my response to each point.
+  - `handcheck-results.md`: Hand-verification verdicts for every flagged baseline answer.
   - `decision-4b-local-only-design.md`: Why the 4B local-only baseline uses chunked majority voting.
 
 ## Reporting rule
