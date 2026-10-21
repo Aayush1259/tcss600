@@ -34,10 +34,9 @@ Independent study, TCSS 600, Prof. Wei Cai. Week 3 of 10 (Oct 15 to 21). Weekly2
 
 ## What is pending (this week)
 
-- Weekly261021 report: drafted, with the final baseline table, the thinking-off verdict, and the reconciled cost estimate (9,204 calls including the 30% debugging allowance; $66.05 expected, $85.11 worst case). Submitting Wednesday night, Oct 21.
-- The billing decision is stated in the report as self-pay on gemini-3.8-flash unless Prof. Cai prefers otherwise.
+- Weekly261021 report: complete, with the final baseline table, the thinking-off verdict, and the reconciled cost estimate (9,204 calls including the 30% debugging allowance; $66.05 expected, $85.11 worst case). Submitting Wednesday night, Oct 21.
+- Billing decision: self-pay on the gemini-3.8-flash paid tier, as stated in Weekly261021.
 
 ## Open decisions
 
-1. Billing: the lab has no funding. Options: (a) flash-lite free tier (~500 requests/day, about 24 days, supervisor stated as flash-lite); (b) paid gemini-3.8-flash (about $91 plus a 30% debugging allowance); (c) check whether the Google AI Pro student offer raises the API quota first. The 3.8-flash free tier is only ~20 requests/day, so free-only on 3.8-flash is not feasible for the full study. Decision in Weekly261021.
-2. Weekly261014 upload: still needs Prof. Cai's shared-folder link.
+- None on the study itself. Billing is decided: self-pay on the gemini-3.8-flash paid tier (about $66 expected, $85 worst case for the full study). The lab has no funding, the 3.8-flash free tier (about 20 requests/day) cannot carry the study's 9,204 calls, and my Claude and Google AI Pro subscriptions do not include API credits.

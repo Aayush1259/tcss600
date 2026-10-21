@@ -117,6 +117,10 @@ def ask_chunk(chunk_prompt, retries=3):
             )
             dt = time.time() - t0
             letter, how = parse_vote(resp.message.content)
+            # GPU seconds (Oct 20): Ollama-reported eval durations,
+            # nanoseconds, summed over prompt and generation.
+            gpu_s = ((getattr(resp, "prompt_eval_duration", 0) or 0) +
+                     (getattr(resp, "eval_duration", 0) or 0)) / 1e9
             return {
                 "letter": letter,
                 "vote_method": how,
@@ -124,6 +128,7 @@ def ask_chunk(chunk_prompt, retries=3):
                 "prompt_tokens": getattr(resp, "prompt_eval_count", None),
                 "completion_tokens": getattr(resp, "eval_count", None),
                 "wall_time_s": round(dt, 1),
+                "gpu_s": round(gpu_s, 2),
             }
         except Exception as e:
             last_err = e
@@ -180,7 +185,7 @@ def main():
             continue
         full_doc = "\n\n---\n\n".join(rec["documents"])
         chunks = chunk_text(full_doc)
-        votes, pt_sum, ct_sum, dt_sum = [], 0, 0, 0.0
+        votes, pt_sum, ct_sum, dt_sum, gpu_sum = [], 0, 0, 0.0, 0.0
         chunk_texts = []
         first_of = {}
         for c in chunks:
@@ -192,6 +197,7 @@ def main():
             pt_sum += out["prompt_tokens"] or 0
             ct_sum += out["completion_tokens"] or 0
             dt_sum += out["wall_time_s"]
+            gpu_sum += out["gpu_s"]
 
         counts = Counter(v for v in votes if v)
         if counts:
@@ -221,6 +227,7 @@ def main():
             "n_chunks": len(chunks),
             "chunk_votes": votes,
             "wall_time_s": round(dt_sum, 1),
+            "worker_gpu_s": round(gpu_sum, 1),
             "worker_prompt_tokens": pt_sum,
             "worker_completion_tokens": ct_sum,
             "est_cost_usd": 0.0,

@@ -53,11 +53,17 @@ def ask_worker(prompt, think=False):
         options={"num_ctx": NUM_CTX, "temperature": 0, "num_predict": 1200},
     )
     dt = time.time() - t0
+    # NOTE (Oct 20): GPU seconds for the proposal's local-compute metric.
+    # Ollama reports prompt_eval_duration and eval_duration in
+    # nanoseconds; their sum is the model's compute time for the call.
+    gpu_s = ((getattr(resp, "prompt_eval_duration", 0) or 0) +
+             (getattr(resp, "eval_duration", 0) or 0)) / 1e9
     return {
         "text": resp.message.content,
         "prompt_tokens": getattr(resp, "prompt_eval_count", None),
         "completion_tokens": getattr(resp, "eval_count", None),
         "wall_time_s": round(dt, 1),
+        "gpu_s": round(gpu_s, 2),
     }
 
 
@@ -94,6 +100,7 @@ def main():
             "match": g["match"],
             "needs_handcheck": g["needs_handcheck"],
             "wall_time_s": out["wall_time_s"],
+            "worker_gpu_s": out["gpu_s"],
             "worker_prompt_tokens": out["prompt_tokens"],
             "worker_completion_tokens": out["completion_tokens"],
             "est_cost_usd": 0.0,
