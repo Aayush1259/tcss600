@@ -16,23 +16,24 @@ Workers: `qwen3.8:27b` on the lab machine (bosgame), `qwen3:4b` on a laptop. Sup
 
 ## Repository layout
 
-- `bosgame/`: Week 1-2 pilot code that ran on the lab machine (Minion pilot, measurements, graders).
-- `laptop/`: Week 1-2 pilot code that ran on the laptop.
-- `harness/`: The Week 3 baseline harness. All scripts run from one folder.
-  - `data_loader.py`: Loads the benchmark and the frozen question sets into standard records.
-  - `grader.py`: Rule-based answer grader with a hand-check queue for unparseable answers.
-  - `runlog.py`: JSONL run logger. Every row records protocol, worker, supervisor, grading method, timing, tokens, cost, and the full prompt and answer.
-  - `local_only_27b.py`: 27B worker alone (bosgame).
-  - `cloud_only.py`: Supervisor alone on the full record (bosgame).
-  - `local_only_4b_chunked.py`: 4B worker alone over ~1,500-token record chunks with majority voting (laptop).
-  - `regrade.py`: Regrades a finished run log with the current grader, without rerunning models.
-  - `handcheck_extract.py`: Extracts the answers the grader flagged, for hand verification.
-- `docs/`: Study documents.
-  - `lab-machine-setup-log.md`: Lab machine setup, step by step.
-  - `lab-machine-log.md`: Lab machine sessions and hours against the proposal plan.
-  - `progress-status.md`: Current status: what is done, what is pending, open decisions.
-  - `handcheck-results.md`: Hand-verification verdicts for every flagged baseline answer.
-  - `decision-4b-local-only-design.md`: Why the 4B local-only baseline uses chunked majority voting.
+Each folder is named after the weekly report it belongs to and holds the code and documents for that week. Each folder runs on its own, so modules used across weeks (`grader.py`, `data_loader.py`, `runlog.py`, `cloud_only.py`) appear in each week's folder in the version used that week. The weekly reports themselves are not in the repository.
+
+- `Weekly261014/`: Weeks 1 and 2. Pilot code that ran on the lab machine (`bosgame/`) and on the laptop (`laptop/`), and the lab machine setup log.
+- `Weekly261021/`: Week 3. The baseline harness: data loader, rule-based grader, run logger, the 27B local-only, cloud-only, and 4B chunked baselines, the regrade and hand-check tools, the hand-check results, the Week 3 status, and the note on the 4B design.
+- `Weekly261028/`: Week 4. JSON final answers, padding N = 2, the MinionS warmup runners for both workers, the frozen rules of October 24, and the lab machine log.
+
+The Week 3 folder includes the grader's short-gold matching fix, the 4B-aware regrade script, and the corrected hand-check results and status. The corrected final warmup scores are 17 out of 20 for the 27B worker with thinking off, 17 with thinking on, 19 for cloud-only, and 11 for the 4B chunked baseline. I made these corrections on October 20 and 21 and reported them in Weekly261021, but pushed them only now, together with this reorganization.
+
+Paths before the reorganization:
+
+| Before | Now |
+|---|---|
+| `bosgame/`, `laptop/` | `Weekly261014/bosgame/`, `Weekly261014/laptop/` |
+| `docs/lab-machine-setup-log.md` | `Weekly261014/` |
+| Week 3 files in `harness/`, `docs/handcheck-results.md`, `docs/progress-status.md`, `docs/decision-4b-local-only-design.md` | `Weekly261021/` |
+| Week 4 files in `harness/`, `docs/frozen-rules-2026-10-24.md`, `docs/lab-machine-log.md` | `Weekly261028/` |
+
+Links in my earlier reports use the old paths. They still work at commit `6de8c96`: https://github.com/Aayush1259/tcss600/tree/6de8c96
 
 ## Reporting rule
 

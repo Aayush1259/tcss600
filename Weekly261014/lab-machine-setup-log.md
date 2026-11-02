@@ -13,6 +13,8 @@ Hardware discovery (read-only commands: `lspci`, `free -h`, `nproc`, `df -h`):
 - AMD NPU is present but I did not use it.
 - 30 GB RAM (25 GB available), 32 CPU cores, 1.7 TB free disk.
 
+> Correction (Oct 21): Prof. Cai pointed out that bosgame has 120 GB of unified memory. The 30 GB above is only what `free -h` shows to the CPU side; the 96 GB that the Ollama server reports for the GPU (see the Ollama section below) is memory set aside for the graphics side, not just an address range. The 30 GB figures in this log describe what I saw on Oct 11, not the machine's total.
+
 ## 2026-10-11/12 : Ollama install (user-space, no sudo)
 
 The official installer (`curl -fsSL https://ollama.com/install.sh | sh`) asks for a sudo password, which I do not have on this shared machine. I installed Ollama inside my own home folder instead, so nothing system-wide was touched.
