@@ -21,6 +21,7 @@ Each folder is named after the weekly report it belongs to and holds the code an
 - `Weekly261014/`: Weeks 1 and 2. Pilot code that ran on the lab machine (`bosgame/`) and on the laptop (`laptop/`), and the lab machine setup log.
 - `Weekly261021/`: Week 3. The baseline harness: data loader, rule-based grader, run logger, the 27B local-only, cloud-only, and 4B chunked baselines, the regrade and hand-check tools, the hand-check results, the Week 3 status, and the note on the 4B design.
 - `Weekly261028/`: Week 4. JSON final answers, padding N = 2, the MinionS warmup runners for both workers, the frozen rules of October 24, and the lab machine log.
+- `Weekly261104/`: Week 5. The pre-registration and its dated correction, the shared-parts pipeline that runs the evaluation, the eval protocols, and the paired tests.
 
 The Week 3 folder includes the grader's short-gold matching fix, the 4B-aware regrade script, and the corrected hand-check results and status. The corrected final warmup scores are 17 out of 20 for the 27B worker with thinking off, 17 with thinking on, 19 for cloud-only, and 11 for the 4B chunked baseline. I made these corrections on October 20 and 21 and reported them in Weekly261021, but pushed them only now, together with this reorganization.
 

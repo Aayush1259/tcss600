@@ -1,4 +1,7 @@
-"""MinionS baseline, 27B worker, on the frozen question sets. Machine: bosgame.
+"""MinionS 27B fix test (October 31): the Week 4 MinionS warmup runner with a
+stricter synthesis prompt, run on warmup patients 01 and 02. Machine: bosgame.
+The test ran without use_async=True, so the worker answered one job per round
+and its result does not stand. See correction-2026-11-04.md.
 
 Published MinionS routine from the Minions package (Minions class):
 the supervisor decomposes the task into small jobs over the documents,
@@ -60,12 +63,8 @@ rounds, chunking, and retrieval settings reproduce a run from
 data_loader deterministically; the Minions log file is recorded per
 row for the full trace.
 
-Usage:
-    python3 minions_run_27b_warmup.py --split warmup --limit 1 --padding 2
-        # smoke: one question, then read final_answer, remote_usage,
-        # timing, and rounds used before sizing the full run
-    python3 minions_run_27b_warmup.py --split warmup --padding 2
-        # full warmup (20 questions)
+Usage (the fix test ran on the first 2 warmup questions):
+    python3 minions_run_27b_warmup_fix.py --split warmup --limit 2 --padding 2
 
 Requires the Ollama server running on bosgame and GEMINI_API_KEY set.
 Run from ~.
