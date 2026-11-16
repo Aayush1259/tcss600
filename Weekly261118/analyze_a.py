@@ -25,6 +25,10 @@ arm's protocol accounting cloud dollars over cloud alone's on the same questions
 dollars beside it when a calls log is given; the laptop's seconds per question; "who does the work"
 (correct answers whose chosen steps had no worker finding).
 
+From the pre-registration (Section 7, frozen November 3): check every step against plan once by the
+reading rule (better only if the interval lies entirely above 0); rescued and broken for each protocol
+against plan once and against 4B alone; triggered against check every step within 5 points, descriptive.
+
 It refuses to run while any arm still has questions without a final result, unless
 --complete-patients-only is given (the fallback of Section 11, after the deadline), so a partial
 look at the evaluation cannot happen by accident.
@@ -117,6 +121,26 @@ def compare(arm, cloud, keys, verdict=True):
             "verdict": verdict, "only_arm_right": sum(1 for k in use if a[k] and not c[k]),
             "only_cloud_alone_right": sum(1 for k in use if c[k] and not a[k]),
             "failed_questions": n_failed, "partial": bool(use) and n_failed / len(use) > 0.05}
+
+
+def against(arm, ref, keys):
+    """compare() with a reference other than cloud alone, the fields named for it: rescued means the
+    reference was wrong and the arm right, broken the reverse (the definition of my November 4 report)."""
+    c = compare(arm, ref, keys, verdict=False)
+    return {"n_questions": c["n_questions"], "n_patients": c["n_patients"],
+            "arm_correct": c.get("arm_correct"), "reference_correct": c.get("cloud_alone_correct"),
+            "difference_points": c["difference_points"], "interval_points": c["interval_points"],
+            "question_interval_points": c.get("question_interval_points"),
+            "rescued": c["only_arm_right"], "broken": c["only_cloud_alone_right"]}
+
+
+def switch(c):
+    """Pre-registration Section 7, the reading rule, unchanged: check every step counts as better than
+    plan once only if the patient cluster 95 percent interval of check minus plan lies entirely above 0.
+    (A nonzero interval end is at least one question over the resample, far above the 0.01 rounding.)"""
+    if not c["n_questions"]:
+        return None
+    return "better" if c["interval_points"][0] > 0 else "not better"
 
 
 def main(argv=None):
@@ -238,7 +262,38 @@ def main(argv=None):
                                           "on_200": compare(arms[name], arms["local_alone"], universe, False)}
                                    for name in PRIMARY}
 
-    by_arm = collections.defaultdict(dict)            # one row per question and arm (a rescored question once)
+    # Pre-registration Section 7 (frozen November 3): plan once against check every step by the switch,
+    # on the 91 and on all 200 (the pre-registration was written for the 200; the 91 are the primary set
+    # since November 11); both are reported, neither is chosen after the result.
+    sets = (("on_91", sorted(the_set)), ("on_200", universe))
+    out["check_against_plan"] = {}
+    for label, keys in sets:
+        c = against(arms["check_every_step"], arms["plan_once"], keys)
+        out["check_against_plan"][label] = {**c, "switch": switch(c)}
+    # Rescued and broken for each protocol (Prof. Cai, October 28): against plan once, and against 4B alone
+    out["rescued_broken"] = {}
+    for name in ("check_every_step", "triggered_logprob_mean"):
+        out["rescued_broken"][f"{name}_against_plan_once"] = {
+            label: {k: v for k, v in against(arms[name], arms["plan_once"], keys).items() if k in ("n_questions", "rescued", "broken")}
+            for label, keys in sets}
+    if "local_alone" in arms:
+        for name in ("plan_once", "check_every_step", "triggered_logprob_mean"):
+            out["rescued_broken"][f"{name}_against_4b_alone"] = {
+                label: {k: v for k, v in against(arms[name], arms["local_alone"], keys).items() if k in ("n_questions", "rescued", "broken")}
+                for label, keys in sets}
+    # Triggered against check every step within 5 points (Section 7), descriptive: Question B is
+    # exploratory and the Holm tests are paused (amendment 2). Within 5 points means the interval lies
+    # entirely above minus 5; it says something about the signal only if the switch says check is better.
+    out["triggered_against_check"] = {}
+    for label, keys in sets:
+        c = against(arms["triggered_logprob_mean"], arms["check_every_step"], keys)
+        within = None if not c["n_questions"] else c["interval_points"][0] > -5.0
+        out["triggered_against_check"][label] = {
+            **c, "within_5_points": within,
+            "meaningful": out["check_against_plan"][label]["switch"] == "better",
+            "note": "descriptive; read only if check every step is better than plan once by the switch"}
+
+    by_arm =collections.defaultdict(dict)            # one row per question and arm (a rescored question once)
     for r in score_rows:
         if r.get("status") in (None, "ok"):
             by_arm[r["arm"]][(r["patient"], r["q_idx"])] = r
@@ -277,6 +332,17 @@ def main(argv=None):
         print(f"{name} against 4B alone, on the 91: difference {p['difference_points']} points, "
               f"95% patient cluster interval {p['interval_points']} (no margin, no verdict); only {name} right "
               f"{p['only_arm_right']}, only 4B alone right {p['only_cloud_alone_right']}")
+    for label in ("on_91", "on_200"):
+        s = out["check_against_plan"][label]
+        print(f"check every step against plan once, {label[3:]}: difference {s['difference_points']} points, "
+              f"95% patient cluster interval {s['interval_points']}, switch: {str(s['switch']).upper()}; "
+              f"rescued {s['rescued']}, broken {s['broken']}")
+    for key, v in out["rescued_broken"].items():
+        print(f"{key}, on the 91: rescued {v['on_91']['rescued']}, broken {v['on_91']['broken']}")
+    t = out["triggered_against_check"]["on_91"]
+    print(f"triggered against check every step, on the 91: difference {t['difference_points']} points, interval "
+          f"{t['interval_points']}, within 5 points {t['within_5_points']} (descriptive"
+          f"{'' if t['meaningful'] else '; says nothing about the signal, check is not better'})")
     for name, c in cost.items():
         print(f"{name}: cloud dollars ratio on the 91 {c['on_91']['ratio']}, laptop seconds per question "
               f"{c['on_91']['laptop_seconds_per_question']}, correct with no worker finding "

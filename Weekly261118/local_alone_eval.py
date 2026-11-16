@@ -19,7 +19,8 @@ What it adds for the evaluation run:
 - --compare-log: how many predictions equal those of an earlier log (for the warmup recheck
   against November 11), with no accuracy;
 - --check: per-run counts (requests equal chunks, normal stops, one GPU residency, all-none
-  questions, ties, malformed replies, reply cuts), no accuracy.
+  questions, ties, malformed replies, reply cuts and their 1 percent limit), no accuracy; with
+  --ollama-journal, Ollama's log by the rules of amendment 2 section 3 (as check_shared.py).
 
     BASELINE_LOG_DIR=~/c2_logs python local_alone_eval.py run --split eval --run-id la_eval \
         --expect-size 3059925389 --expect-size-vram 2316912557
@@ -169,6 +170,47 @@ def cmd_run(args, make_worker=None):
     return 0
 
 
+def journal_checks(path, rows, chunks, check):
+    """Ollama's service log for the run's window, read by the rules of amendment 2 section 3, as
+    check_shared.py reads it for the pipeline: no cut prompt; one layer split for every model load; a
+    model process crash accepted only if a reload comes before the next answered request; every HTTP 500
+    retried or recorded. A question's chunk calls are logged only when the question ends, so a stopped
+    launch, a failed or a halted question can leave up to one question's chunks sent but not logged."""
+    with open(path, encoding="utf-8", errors="replace") as f:
+        lines = f.read().splitlines()
+    truncating = sum(line.count("truncating input prompt") for line in lines)
+    check(truncating == 0, f"no 'truncating input prompt' in the Ollama journal ({truncating})")
+    splits = collections.Counter(line.split("load_tensors:", 1)[-1].strip()
+                                 for line in lines if "offloaded" in line and "layers to GPU" in line)
+    check(len(splits) <= 1, f"one layer split for every model load in the journal {dict(splits)}")
+    lost = sum(line.count("GPU discovery watchdog timed out") for line in lines)
+    print(f"      GPU discovery timeouts in the journal: {lost} (reported; the residency check decides)")
+    crashes, pending, served_before_reload = 0, False, 0
+    for line in lines:
+        if "CUDA error" in line or "llama-server terminated" in line or "signal: aborted" in line:
+            if not pending:
+                crashes += 1
+            pending = True
+        elif "offloaded" in line and "layers to GPU" in line:
+            pending = False
+        elif pending and "/api/chat" in line and "| 500 |" not in line:
+            served_before_reload += 1
+    check(served_before_reload == 0, f"model process crashes in the journal: {crashes}, each followed by a reload "
+                                     f"before the next answered request ({served_before_reload} answered before a reload)")
+    chats = sum(1 for line in lines if "/api/chat" in line)
+    errors_500 = sum(1 for line in lines if "/api/chat" in line and "| 500 |" in line)
+    retries = sum((c.get("attempts") or 1) - 1 for c in chunks)
+    stopped = sum(1 for r in rows if r.get("status") in ("failed", "halt"))
+    launches = len({r.get("launch") for r in rows if r.get("launch")})
+    check(errors_500 <= retries + stopped, f"every request that got an HTTP 500 was retried or recorded "
+                                           f"({errors_500} errors, {retries} retries, {stopped} failed or halt rows)")
+    most = max((r["n_chunks"] for r in rows if r.get("status") == "ok"), default=0)
+    extra, allowed = chats - len(chunks), retries + (launches + stopped) * most
+    check(0 <= extra <= allowed, f"chat requests in the journal {chats}, chunk calls logged {len(chunks)}: {extra} "
+                                 f"unlogged, allowed {allowed} (retries {retries}; {launches} launches and {stopped} "
+                                 f"failed or halt rows, each up to {most} chunks)")
+
+
 def cmd_check(args):
     rows = read(os.path.join(runlog.LOG_DIR, f"local_alone_4b_{args.split}_{args.run_id}.jsonl"))
     ok = [r for r in rows if r.get("status") == "ok"]
@@ -191,7 +233,12 @@ def cmd_check(args):
     check(all(r["requests"] == r["n_chunks"] == len(r["chunks"]) for r in ok), f"one request per chunk ({len(chunks)} chunks)")
     check(all(r["n_none"] + r["n_malformed"] + sum(r["votes"].values()) == r["n_chunks"] for r in ok),
           "letter votes, none and malformed add up to the chunks")
-    check(all(c["done_reason"] == "stop" or c.get("reply_cut") for c in chunks), "every call a normal stop or a reply cut")
+    cut = [c for c in chunks if c["done_reason"] == "length" and c.get("reply_cut")
+           and c.get("completion_tokens") == rs.NUM_PREDICT]
+    check(all(c["done_reason"] == "stop" or c in cut for c in chunks), "every call a normal stop or a reply cut")
+    rate = len(cut) / len(chunks) if chunks else 0.0
+    check(rate <= 0.01, f"reply cuts at {rs.NUM_PREDICT} tokens: {len(cut)} of {len(chunks)} calls "
+                        f"({100 * rate:.2f} percent, limit 1; amendment 2 section 3)")
     res = collections.Counter((c["model_size"], c["model_size_vram"]) for c in chunks)
     check(len(res) == 1 and all(v for _, v in res), f"one GPU residency, never zero {dict(res)}")
     if args.expect_size_vram:
@@ -205,6 +252,8 @@ def cmd_check(args):
         both = [k for k in keys if k in old]
         same = sum(1 for r in ok if (r["patient"], r["q_idx"]) in old and r["predicted"] == old[(r["patient"], r["q_idx"])])
         print(f"      same prediction as {os.path.basename(args.compare_log)}: {same} of {len(both)} questions")
+    if args.ollama_journal:
+        journal_checks(args.ollama_journal, rows, chunks, check)
     print(f"\n{'ALL CHECKS PASSED' if not fails else str(len(fails)) + ' CHECK(S) FAILED'}")
     return 0 if not fails else 1
 
@@ -221,6 +270,7 @@ def main(argv=None, make_worker=None):
     sub.choices["run"].add_argument("--limit", type=int)
     sub.choices["check"].add_argument("--expect-questions", type=int)
     sub.choices["check"].add_argument("--compare-log")
+    sub.choices["check"].add_argument("--ollama-journal", help="journalctl -u ollama for the run's window")
     args = ap.parse_args(argv)
     if bool(args.expect_size) != bool(args.expect_size_vram):
         ap.error("--expect-size and --expect-size-vram go together")
