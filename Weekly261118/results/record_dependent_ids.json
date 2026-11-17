@@ -1,0 +1,462 @@
+{
+ "rule": "wrong in at least 3 of 5 closed-book eval runs",
+ "note": "The 91 record-dependent evaluation questions (patient and question index within the patient), with the number of the five closed-book runs that answered each one wrong. Formed on November 11 from the five closed-book runs; the run logs are not public because they contain benchmark text.",
+ "n": 91,
+ "set": [
+  {
+   "patient": "patient_01",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_01",
+   "q_idx": 6,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_01",
+   "q_idx": 9,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_01",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_02",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_02",
+   "q_idx": 6,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_02",
+   "q_idx": 7,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_02",
+   "q_idx": 10,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_02",
+   "q_idx": 11,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_03",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_03",
+   "q_idx": 4,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_03",
+   "q_idx": 5,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_03",
+   "q_idx": 6,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_03",
+   "q_idx": 9,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_03",
+   "q_idx": 11,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_03",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_04",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_04",
+   "q_idx": 9,
+   "wrong_runs": 3
+  },
+  {
+   "patient": "patient_04",
+   "q_idx": 10,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_05",
+   "q_idx": 4,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_05",
+   "q_idx": 6,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_05",
+   "q_idx": 8,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_05",
+   "q_idx": 9,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_05",
+   "q_idx": 10,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_05",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_06",
+   "q_idx": 8,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_06",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_07",
+   "q_idx": 4,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_07",
+   "q_idx": 5,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_07",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_08",
+   "q_idx": 3,
+   "wrong_runs": 3
+  },
+  {
+   "patient": "patient_08",
+   "q_idx": 5,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_08",
+   "q_idx": 6,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_08",
+   "q_idx": 7,
+   "wrong_runs": 3
+  },
+  {
+   "patient": "patient_08",
+   "q_idx": 8,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_08",
+   "q_idx": 9,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_09",
+   "q_idx": 4,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_09",
+   "q_idx": 5,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_09",
+   "q_idx": 8,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_09",
+   "q_idx": 11,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_09",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_10",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_10",
+   "q_idx": 8,
+   "wrong_runs": 3
+  },
+  {
+   "patient": "patient_10",
+   "q_idx": 10,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_10",
+   "q_idx": 11,
+   "wrong_runs": 3
+  },
+  {
+   "patient": "patient_10",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_11",
+   "q_idx": 6,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_11",
+   "q_idx": 9,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_11",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_12",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_12",
+   "q_idx": 5,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_12",
+   "q_idx": 9,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_12",
+   "q_idx": 11,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_13",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_13",
+   "q_idx": 4,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_13",
+   "q_idx": 5,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_13",
+   "q_idx": 6,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_13",
+   "q_idx": 9,
+   "wrong_runs": 3
+  },
+  {
+   "patient": "patient_13",
+   "q_idx": 10,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_13",
+   "q_idx": 11,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_13",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_14",
+   "q_idx": 4,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_14",
+   "q_idx": 6,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_14",
+   "q_idx": 7,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_14",
+   "q_idx": 10,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_14",
+   "q_idx": 11,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_14",
+   "q_idx": 12,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_15",
+   "q_idx": 3,
+   "wrong_runs": 3
+  },
+  {
+   "patient": "patient_15",
+   "q_idx": 6,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_15",
+   "q_idx": 7,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_15",
+   "q_idx": 8,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_15",
+   "q_idx": 10,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_15",
+   "q_idx": 11,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_16",
+   "q_idx": 4,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_16",
+   "q_idx": 5,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_16",
+   "q_idx": 6,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_16",
+   "q_idx": 7,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_16",
+   "q_idx": 8,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_16",
+   "q_idx": 10,
+   "wrong_runs": 3
+  },
+  {
+   "patient": "patient_16",
+   "q_idx": 11,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_16",
+   "q_idx": 12,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_17",
+   "q_idx": 4,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_18",
+   "q_idx": 3,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_19",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_19",
+   "q_idx": 8,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_19",
+   "q_idx": 10,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_20",
+   "q_idx": 3,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_20",
+   "q_idx": 6,
+   "wrong_runs": 5
+  },
+  {
+   "patient": "patient_20",
+   "q_idx": 9,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_20",
+   "q_idx": 11,
+   "wrong_runs": 4
+  },
+  {
+   "patient": "patient_20",
+   "q_idx": 12,
+   "wrong_runs": 5
+  }
+ ]
+}

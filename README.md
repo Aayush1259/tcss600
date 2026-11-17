@@ -12,6 +12,8 @@ Research questions:
 - **RQ2:** Reference points: no review vs review at every step vs the MinionS protocol.
 - **RQ3:** Worker strength: a 27B local worker vs a 4B local worker.
 
+Update (November 18): following the advisor's November 5 feedback, the primary question is Question A: does the 4B worker with cloud supervision (plan once, check every step) come within 10 points of cloud alone on the 91 record-dependent questions, and at what cost. RQ1 (the log-prob trigger) is exploratory, and the 27B worker is a supplement. The result and its chart are in `Weekly261118/results/`.
+
 Workers: `qwen3.8:27b` on the lab machine (bosgame), `qwen3:4b` on a laptop. Supervisor: `gemini-3.8-flash`. Question sets are frozen: 20 warmup questions and a 200-question evaluation set, with no overlap with the pilot questions.
 
 ## Repository layout

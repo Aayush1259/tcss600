@@ -1,0 +1,18 @@
+plan_once (primary), on the 91: difference -37.36 points, 95% patient cluster interval [-47.67, -26.47], WORSE; only arm right 0, only cloud alone right 34; 91 questions, 20 patients
+check_every_step (primary), on the 91: difference -36.26 points, 95% patient cluster interval [-46.05, -25.61], WORSE; only arm right 0, only cloud alone right 33; 91 questions, 20 patients
+triggered_logprob_mean (context), on the 91: difference -39.56 points, 95% patient cluster interval [-50.65, -28.26], NO VERDICT (CONTEXT ARM); only arm right 0, only cloud alone right 36; 91 questions, 20 patients
+local_alone (context), on the 91: difference -51.65 points, 95% patient cluster interval [-62.75, -42.11], NO VERDICT (CONTEXT ARM); only arm right 1, only cloud alone right 48; 91 questions, 20 patients
+plan_once against 4B alone, on the 91: difference 14.29 points, 95% patient cluster interval [-1.22, 29.89] (no margin, no verdict); only plan_once right 25, only 4B alone right 12
+check_every_step against 4B alone, on the 91: difference 15.38 points, 95% patient cluster interval [1.02, 29.47] (no margin, no verdict); only check_every_step right 24, only 4B alone right 10
+check every step against plan once, 91: difference 1.1 points, 95% patient cluster interval [-4.0, 5.75], switch: NOT BETTER; rescued 3, broken 2
+check every step against plan once, 200: difference 0.5 points, 95% patient cluster interval [-2.0, 3.0], switch: NOT BETTER; rescued 5, broken 4
+check_every_step_against_plan_once, on the 91: rescued 3, broken 2
+triggered_logprob_mean_against_plan_once, on the 91: rescued 0, broken 2
+plan_once_against_4b_alone, on the 91: rescued 25, broken 12
+check_every_step_against_4b_alone, on the 91: rescued 24, broken 10
+triggered_logprob_mean_against_4b_alone, on the 91: rescued 24, broken 13
+triggered against check every step, on the 91: difference -3.3 points, interval [-7.77, 1.22], within 5 points False (descriptive; says nothing about the signal, check is not better)
+plan_once: cloud dollars ratio on the 91 0.0978, laptop seconds per question 228.6, correct with no worker finding 5
+check_every_step: cloud dollars ratio on the 91 0.2596, laptop seconds per question 323.9, correct with no worker finding 5
+triggered_logprob_mean: cloud dollars ratio on the 91 0.1137, laptop seconds per question 235.1, correct with no worker finding 5
+written: ~/c2_logs/question_a_results.json

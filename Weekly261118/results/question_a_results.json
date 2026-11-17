@@ -1,0 +1,1089 @@
+{
+ "patients_used": [
+  "patient_01",
+  "patient_02",
+  "patient_03",
+  "patient_04",
+  "patient_05",
+  "patient_06",
+  "patient_07",
+  "patient_08",
+  "patient_09",
+  "patient_10",
+  "patient_11",
+  "patient_12",
+  "patient_13",
+  "patient_14",
+  "patient_15",
+  "patient_16",
+  "patient_17",
+  "patient_18",
+  "patient_19",
+  "patient_20"
+ ],
+ "rule_note": "all patients",
+ "rule": "November 12 amendment, section 4; margin -10 points; Section 8 interval, seed 20261105",
+ "set_sha256": "d288c67194ec25e2daa29b8c71a7416190c1e1942154ddbe6923306dc862e7d7",
+ "inputs": {
+  "cloud_alone": "cloud_alone_eval_pad2_json_20261112_184845.jsonl",
+  "scores": "scores_4b_eval_c2evalscore.jsonl",
+  "shared": "shared_4b_eval_c2eval.jsonl",
+  "local_alone": "local_alone_4b_eval_la_eval.jsonl"
+ },
+ "comparisons": {
+  "plan_once": {
+   "role": "primary",
+   "on_91": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 48,
+    "cloud_alone_correct": 82,
+    "difference_points": -37.36,
+    "interval_points": [
+     -47.67,
+     -26.47
+    ],
+    "question_interval_points": [
+     -47.25,
+     -27.47
+    ],
+    "verdict": "worse",
+    "only_arm_right": 0,
+    "only_cloud_alone_right": 34,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_200": {
+    "n_questions": 200,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 10,
+     "patient_02": 10,
+     "patient_03": 10,
+     "patient_04": 10,
+     "patient_05": 10,
+     "patient_06": 10,
+     "patient_07": 10,
+     "patient_08": 10,
+     "patient_09": 10,
+     "patient_10": 10,
+     "patient_11": 10,
+     "patient_12": 10,
+     "patient_13": 10,
+     "patient_14": 10,
+     "patient_15": 10,
+     "patient_16": 10,
+     "patient_17": 10,
+     "patient_18": 10,
+     "patient_19": 10,
+     "patient_20": 10
+    },
+    "arm_correct": 138,
+    "cloud_alone_correct": 184,
+    "difference_points": -23.0,
+    "interval_points": [
+     -30.5,
+     -15.0
+    ],
+    "question_interval_points": [
+     -29.5,
+     -16.5
+    ],
+    "verdict": "worse",
+    "only_arm_right": 6,
+    "only_cloud_alone_right": 52,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_109": {
+    "n_questions": 109,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 6,
+     "patient_02": 5,
+     "patient_03": 3,
+     "patient_04": 7,
+     "patient_05": 4,
+     "patient_06": 8,
+     "patient_07": 7,
+     "patient_08": 4,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 7,
+     "patient_12": 6,
+     "patient_13": 2,
+     "patient_14": 4,
+     "patient_15": 4,
+     "patient_16": 2,
+     "patient_17": 9,
+     "patient_18": 9,
+     "patient_19": 7,
+     "patient_20": 5
+    },
+    "arm_correct": 90,
+    "cloud_alone_correct": 102,
+    "difference_points": -11.01,
+    "interval_points": [
+     -20.35,
+     0.0
+    ],
+    "question_interval_points": [
+     -19.27,
+     -2.75
+    ],
+    "verdict": "inconclusive",
+    "only_arm_right": 6,
+    "only_cloud_alone_right": 18,
+    "failed_questions": 0,
+    "partial": false
+   }
+  },
+  "check_every_step": {
+   "role": "primary",
+   "on_91": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 49,
+    "cloud_alone_correct": 82,
+    "difference_points": -36.26,
+    "interval_points": [
+     -46.05,
+     -25.61
+    ],
+    "question_interval_points": [
+     -46.15,
+     -26.37
+    ],
+    "verdict": "worse",
+    "only_arm_right": 0,
+    "only_cloud_alone_right": 33,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_200": {
+    "n_questions": 200,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 10,
+     "patient_02": 10,
+     "patient_03": 10,
+     "patient_04": 10,
+     "patient_05": 10,
+     "patient_06": 10,
+     "patient_07": 10,
+     "patient_08": 10,
+     "patient_09": 10,
+     "patient_10": 10,
+     "patient_11": 10,
+     "patient_12": 10,
+     "patient_13": 10,
+     "patient_14": 10,
+     "patient_15": 10,
+     "patient_16": 10,
+     "patient_17": 10,
+     "patient_18": 10,
+     "patient_19": 10,
+     "patient_20": 10
+    },
+    "arm_correct": 139,
+    "cloud_alone_correct": 184,
+    "difference_points": -22.5,
+    "interval_points": [
+     -28.5,
+     -15.5
+    ],
+    "question_interval_points": [
+     -29.0,
+     -16.0
+    ],
+    "verdict": "worse",
+    "only_arm_right": 5,
+    "only_cloud_alone_right": 50,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_109": {
+    "n_questions": 109,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 6,
+     "patient_02": 5,
+     "patient_03": 3,
+     "patient_04": 7,
+     "patient_05": 4,
+     "patient_06": 8,
+     "patient_07": 7,
+     "patient_08": 4,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 7,
+     "patient_12": 6,
+     "patient_13": 2,
+     "patient_14": 4,
+     "patient_15": 4,
+     "patient_16": 2,
+     "patient_17": 9,
+     "patient_18": 9,
+     "patient_19": 7,
+     "patient_20": 5
+    },
+    "arm_correct": 90,
+    "cloud_alone_correct": 102,
+    "difference_points": -11.01,
+    "interval_points": [
+     -19.26,
+     -1.1
+    ],
+    "question_interval_points": [
+     -19.27,
+     -2.75
+    ],
+    "verdict": "inconclusive",
+    "only_arm_right": 5,
+    "only_cloud_alone_right": 17,
+    "failed_questions": 0,
+    "partial": false
+   }
+  },
+  "triggered_logprob_mean": {
+   "role": "context",
+   "on_91": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 46,
+    "cloud_alone_correct": 82,
+    "difference_points": -39.56,
+    "interval_points": [
+     -50.65,
+     -28.26
+    ],
+    "question_interval_points": [
+     -49.45,
+     -29.67
+    ],
+    "verdict": null,
+    "only_arm_right": 0,
+    "only_cloud_alone_right": 36,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_200": {
+    "n_questions": 200,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 10,
+     "patient_02": 10,
+     "patient_03": 10,
+     "patient_04": 10,
+     "patient_05": 10,
+     "patient_06": 10,
+     "patient_07": 10,
+     "patient_08": 10,
+     "patient_09": 10,
+     "patient_10": 10,
+     "patient_11": 10,
+     "patient_12": 10,
+     "patient_13": 10,
+     "patient_14": 10,
+     "patient_15": 10,
+     "patient_16": 10,
+     "patient_17": 10,
+     "patient_18": 10,
+     "patient_19": 10,
+     "patient_20": 10
+    },
+    "arm_correct": 137,
+    "cloud_alone_correct": 184,
+    "difference_points": -23.5,
+    "interval_points": [
+     -31.0,
+     -15.5
+    ],
+    "question_interval_points": [
+     -30.5,
+     -17.0
+    ],
+    "verdict": null,
+    "only_arm_right": 6,
+    "only_cloud_alone_right": 53,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_109": {
+    "n_questions": 109,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 6,
+     "patient_02": 5,
+     "patient_03": 3,
+     "patient_04": 7,
+     "patient_05": 4,
+     "patient_06": 8,
+     "patient_07": 7,
+     "patient_08": 4,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 7,
+     "patient_12": 6,
+     "patient_13": 2,
+     "patient_14": 4,
+     "patient_15": 4,
+     "patient_16": 2,
+     "patient_17": 9,
+     "patient_18": 9,
+     "patient_19": 7,
+     "patient_20": 5
+    },
+    "arm_correct": 91,
+    "cloud_alone_correct": 102,
+    "difference_points": -10.09,
+    "interval_points": [
+     -19.66,
+     0.87
+    ],
+    "question_interval_points": [
+     -18.35,
+     -1.83
+    ],
+    "verdict": null,
+    "only_arm_right": 6,
+    "only_cloud_alone_right": 17,
+    "failed_questions": 0,
+    "partial": false
+   }
+  },
+  "local_alone": {
+   "role": "context",
+   "on_91": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 35,
+    "cloud_alone_correct": 82,
+    "difference_points": -51.65,
+    "interval_points": [
+     -62.75,
+     -42.11
+    ],
+    "question_interval_points": [
+     -62.64,
+     -40.66
+    ],
+    "verdict": null,
+    "only_arm_right": 1,
+    "only_cloud_alone_right": 48,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_200": {
+    "n_questions": 200,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 10,
+     "patient_02": 10,
+     "patient_03": 10,
+     "patient_04": 10,
+     "patient_05": 10,
+     "patient_06": 10,
+     "patient_07": 10,
+     "patient_08": 10,
+     "patient_09": 10,
+     "patient_10": 10,
+     "patient_11": 10,
+     "patient_12": 10,
+     "patient_13": 10,
+     "patient_14": 10,
+     "patient_15": 10,
+     "patient_16": 10,
+     "patient_17": 10,
+     "patient_18": 10,
+     "patient_19": 10,
+     "patient_20": 10
+    },
+    "arm_correct": 107,
+    "cloud_alone_correct": 184,
+    "difference_points": -38.5,
+    "interval_points": [
+     -46.5,
+     -30.5
+    ],
+    "question_interval_points": [
+     -46.0,
+     -31.5
+    ],
+    "verdict": null,
+    "only_arm_right": 4,
+    "only_cloud_alone_right": 81,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_109": {
+    "n_questions": 109,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 6,
+     "patient_02": 5,
+     "patient_03": 3,
+     "patient_04": 7,
+     "patient_05": 4,
+     "patient_06": 8,
+     "patient_07": 7,
+     "patient_08": 4,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 7,
+     "patient_12": 6,
+     "patient_13": 2,
+     "patient_14": 4,
+     "patient_15": 4,
+     "patient_16": 2,
+     "patient_17": 9,
+     "patient_18": 9,
+     "patient_19": 7,
+     "patient_20": 5
+    },
+    "arm_correct": 72,
+    "cloud_alone_correct": 102,
+    "difference_points": -27.52,
+    "interval_points": [
+     -38.78,
+     -15.97
+    ],
+    "question_interval_points": [
+     -36.7,
+     -18.35
+    ],
+    "verdict": null,
+    "only_arm_right": 3,
+    "only_cloud_alone_right": 33,
+    "failed_questions": 0,
+    "partial": false
+   }
+  }
+ },
+ "fallback": {
+  "plan_once": {
+   "answers_read_by_fallback_on_91": 0,
+   "correct_by_fallback_on_91": 0,
+   "on_91_counted_wrong": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 48,
+    "cloud_alone_correct": 82,
+    "difference_points": -37.36,
+    "interval_points": [
+     -47.67,
+     -26.47
+    ],
+    "question_interval_points": [
+     -47.25,
+     -27.47
+    ],
+    "verdict": "worse",
+    "only_arm_right": 0,
+    "only_cloud_alone_right": 34,
+    "failed_questions": 0,
+    "partial": false
+   }
+  },
+  "check_every_step": {
+   "answers_read_by_fallback_on_91": 0,
+   "correct_by_fallback_on_91": 0,
+   "on_91_counted_wrong": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 49,
+    "cloud_alone_correct": 82,
+    "difference_points": -36.26,
+    "interval_points": [
+     -46.05,
+     -25.61
+    ],
+    "question_interval_points": [
+     -46.15,
+     -26.37
+    ],
+    "verdict": "worse",
+    "only_arm_right": 0,
+    "only_cloud_alone_right": 33,
+    "failed_questions": 0,
+    "partial": false
+   }
+  },
+  "triggered_logprob_mean": {
+   "answers_read_by_fallback_on_91": 0,
+   "correct_by_fallback_on_91": 0,
+   "on_91_counted_wrong": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 46,
+    "cloud_alone_correct": 82,
+    "difference_points": -39.56,
+    "interval_points": [
+     -50.65,
+     -28.26
+    ],
+    "question_interval_points": [
+     -49.45,
+     -29.67
+    ],
+    "verdict": null,
+    "only_arm_right": 0,
+    "only_cloud_alone_right": 36,
+    "failed_questions": 0,
+    "partial": false
+   }
+  }
+ },
+ "against_4b_alone": {
+  "plan_once": {
+   "on_91": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 48,
+    "cloud_alone_correct": 35,
+    "difference_points": 14.29,
+    "interval_points": [
+     -1.22,
+     29.89
+    ],
+    "question_interval_points": [
+     1.1,
+     27.47
+    ],
+    "verdict": null,
+    "only_arm_right": 25,
+    "only_cloud_alone_right": 12,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_200": {
+    "n_questions": 200,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 10,
+     "patient_02": 10,
+     "patient_03": 10,
+     "patient_04": 10,
+     "patient_05": 10,
+     "patient_06": 10,
+     "patient_07": 10,
+     "patient_08": 10,
+     "patient_09": 10,
+     "patient_10": 10,
+     "patient_11": 10,
+     "patient_12": 10,
+     "patient_13": 10,
+     "patient_14": 10,
+     "patient_15": 10,
+     "patient_16": 10,
+     "patient_17": 10,
+     "patient_18": 10,
+     "patient_19": 10,
+     "patient_20": 10
+    },
+    "arm_correct": 138,
+    "cloud_alone_correct": 107,
+    "difference_points": 15.5,
+    "interval_points": [
+     5.5,
+     26.0
+    ],
+    "question_interval_points": [
+     7.5,
+     23.5
+    ],
+    "verdict": null,
+    "only_arm_right": 52,
+    "only_cloud_alone_right": 21,
+    "failed_questions": 0,
+    "partial": false
+   }
+  },
+  "check_every_step": {
+   "on_91": {
+    "n_questions": 91,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 4,
+     "patient_02": 5,
+     "patient_03": 7,
+     "patient_04": 3,
+     "patient_05": 6,
+     "patient_06": 2,
+     "patient_07": 3,
+     "patient_08": 6,
+     "patient_09": 5,
+     "patient_10": 5,
+     "patient_11": 3,
+     "patient_12": 4,
+     "patient_13": 8,
+     "patient_14": 6,
+     "patient_15": 6,
+     "patient_16": 8,
+     "patient_17": 1,
+     "patient_18": 1,
+     "patient_19": 3,
+     "patient_20": 5
+    },
+    "arm_correct": 49,
+    "cloud_alone_correct": 35,
+    "difference_points": 15.38,
+    "interval_points": [
+     1.02,
+     29.47
+    ],
+    "question_interval_points": [
+     3.3,
+     27.47
+    ],
+    "verdict": null,
+    "only_arm_right": 24,
+    "only_cloud_alone_right": 10,
+    "failed_questions": 0,
+    "partial": false
+   },
+   "on_200": {
+    "n_questions": 200,
+    "n_patients": 20,
+    "patients_left_out": [],
+    "questions_per_patient": {
+     "patient_01": 10,
+     "patient_02": 10,
+     "patient_03": 10,
+     "patient_04": 10,
+     "patient_05": 10,
+     "patient_06": 10,
+     "patient_07": 10,
+     "patient_08": 10,
+     "patient_09": 10,
+     "patient_10": 10,
+     "patient_11": 10,
+     "patient_12": 10,
+     "patient_13": 10,
+     "patient_14": 10,
+     "patient_15": 10,
+     "patient_16": 10,
+     "patient_17": 10,
+     "patient_18": 10,
+     "patient_19": 10,
+     "patient_20": 10
+    },
+    "arm_correct": 139,
+    "cloud_alone_correct": 107,
+    "difference_points": 16.0,
+    "interval_points": [
+     6.0,
+     26.5
+    ],
+    "question_interval_points": [
+     8.5,
+     23.5
+    ],
+    "verdict": null,
+    "only_arm_right": 50,
+    "only_cloud_alone_right": 18,
+    "failed_questions": 0,
+    "partial": false
+   }
+  }
+ },
+ "check_against_plan": {
+  "on_91": {
+   "n_questions": 91,
+   "n_patients": 20,
+   "arm_correct": 49,
+   "reference_correct": 48,
+   "difference_points": 1.1,
+   "interval_points": [
+    -4.0,
+    5.75
+   ],
+   "question_interval_points": [
+    -3.3,
+    5.49
+   ],
+   "rescued": 3,
+   "broken": 2,
+   "switch": "not better"
+  },
+  "on_200": {
+   "n_questions": 200,
+   "n_patients": 20,
+   "arm_correct": 139,
+   "reference_correct": 138,
+   "difference_points": 0.5,
+   "interval_points": [
+    -2.0,
+    3.0
+   ],
+   "question_interval_points": [
+    -2.5,
+    3.5
+   ],
+   "rescued": 5,
+   "broken": 4,
+   "switch": "not better"
+  }
+ },
+ "rescued_broken": {
+  "check_every_step_against_plan_once": {
+   "on_91": {
+    "n_questions": 91,
+    "rescued": 3,
+    "broken": 2
+   },
+   "on_200": {
+    "n_questions": 200,
+    "rescued": 5,
+    "broken": 4
+   }
+  },
+  "triggered_logprob_mean_against_plan_once": {
+   "on_91": {
+    "n_questions": 91,
+    "rescued": 0,
+    "broken": 2
+   },
+   "on_200": {
+    "n_questions": 200,
+    "rescued": 1,
+    "broken": 2
+   }
+  },
+  "plan_once_against_4b_alone": {
+   "on_91": {
+    "n_questions": 91,
+    "rescued": 25,
+    "broken": 12
+   },
+   "on_200": {
+    "n_questions": 200,
+    "rescued": 52,
+    "broken": 21
+   }
+  },
+  "check_every_step_against_4b_alone": {
+   "on_91": {
+    "n_questions": 91,
+    "rescued": 24,
+    "broken": 10
+   },
+   "on_200": {
+    "n_questions": 200,
+    "rescued": 50,
+    "broken": 18
+   }
+  },
+  "triggered_logprob_mean_against_4b_alone": {
+   "on_91": {
+    "n_questions": 91,
+    "rescued": 24,
+    "broken": 13
+   },
+   "on_200": {
+    "n_questions": 200,
+    "rescued": 52,
+    "broken": 22
+   }
+  }
+ },
+ "triggered_against_check": {
+  "on_91": {
+   "n_questions": 91,
+   "n_patients": 20,
+   "arm_correct": 46,
+   "reference_correct": 49,
+   "difference_points": -3.3,
+   "interval_points": [
+    -7.77,
+    1.22
+   ],
+   "question_interval_points": [
+    -7.69,
+    1.1
+   ],
+   "rescued": 1,
+   "broken": 4,
+   "within_5_points": false,
+   "meaningful": false,
+   "note": "descriptive; read only if check every step is better than plan once by the switch"
+  },
+  "on_200": {
+   "n_questions": 200,
+   "n_patients": 20,
+   "arm_correct": 137,
+   "reference_correct": 139,
+   "difference_points": -1.0,
+   "interval_points": [
+    -4.0,
+    2.0
+   ],
+   "question_interval_points": [
+    -4.0,
+    2.0
+   ],
+   "rescued": 4,
+   "broken": 6,
+   "within_5_points": true,
+   "meaningful": false,
+   "note": "descriptive; read only if check every step is better than plan once by the switch"
+  }
+ },
+ "cost_and_work": {
+  "plan_once": {
+   "on_91": {
+    "questions": 91,
+    "arm_cloud_usd": 0.2372,
+    "cloud_alone_usd": 2.4254,
+    "ratio": 0.0978,
+    "laptop_seconds_per_question": 228.6,
+    "correct_with_no_worker_finding": 5
+   },
+   "on_200": {
+    "questions": 200,
+    "arm_cloud_usd": 0.4662,
+    "cloud_alone_usd": 5.3284,
+    "ratio": 0.0875,
+    "laptop_seconds_per_question": 226.1,
+    "correct_with_no_worker_finding": 32
+   }
+  },
+  "check_every_step": {
+   "on_91": {
+    "questions": 91,
+    "arm_cloud_usd": 0.6295,
+    "cloud_alone_usd": 2.4254,
+    "ratio": 0.2596,
+    "laptop_seconds_per_question": 323.9,
+    "correct_with_no_worker_finding": 5
+   },
+   "on_200": {
+    "questions": 200,
+    "arm_cloud_usd": 1.2983,
+    "cloud_alone_usd": 5.3284,
+    "ratio": 0.2437,
+    "laptop_seconds_per_question": 314.2,
+    "correct_with_no_worker_finding": 29
+   }
+  },
+  "triggered_logprob_mean": {
+   "on_91": {
+    "questions": 91,
+    "arm_cloud_usd": 0.2758,
+    "cloud_alone_usd": 2.4254,
+    "ratio": 0.1137,
+    "laptop_seconds_per_question": 235.1,
+    "correct_with_no_worker_finding": 5
+   },
+   "on_200": {
+    "questions": 200,
+    "arm_cloud_usd": 0.5453,
+    "cloud_alone_usd": 5.3284,
+    "ratio": 0.1023,
+    "laptop_seconds_per_question": 232.1,
+    "correct_with_no_worker_finding": 32
+   }
+  }
+ },
+ "fresh_dollars_paid": {
+  "calls_logs": [
+   "calls_4b_eval_c2eval.jsonl",
+   "calls_score_4b_eval_c2evalscore.jsonl"
+  ],
+  "usd": 1.4094
+ }
+}
