@@ -3,7 +3,7 @@
 Reads only the JSON written by analyze_a.py and draws two panels for the 91 record-dependent questions.
 
 Panel A, cost and accuracy: x = cloud dollars per question (protocol accounting; 4B alone at 0; a
-linear axis), y = accuracy on the 91, one point per arm, with the 95 percent patient cluster interval
+linear axis, tick labels in cents), y = accuracy on the 91, one point per arm, with the 95 percent patient cluster interval
 of the arm's difference from cloud alone drawn around the arm's point, and a line at cloud alone's
 accuracy minus 10 points (the margin of the November 12 rule). Labels carry the laptop minutes per
 question where the JSON has them. Three hues only (cloud alone, plan once, check every step); 4B
@@ -26,11 +26,15 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib.ticker import FuncFormatter  # noqa: E402
 
 SURFACE, TEXT, TEXT2, MUTED, GRID, AXIS = "#fcfcfb", "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
 # panel A: categorical slots 1 to 3 of the validated palette (all-pairs safe), fixed per arm; 4B alone gray
-COLOR = {"cloud_alone": "#2a78d6", "plan_once": "#eb6834", "check_every_step": "#1baf7a", "local_alone": TEXT2,
+COLOR = {"cloud_alone": "#2a78d6", "plan_once": "#eb6834", "check_every_step": "#1baf7a", "local_alone": "#2b2a28",
          "triggered_logprob_mean": MUTED}
+# panel A labels: the context arms say so, since the verdict covers plan once and check every step only
+LABEL_A = {"triggered_logprob_mean": "Triggered log-prob (exploratory, no verdict)",
+           "local_alone": "4B alone (context, no verdict)"}
 LABEL = {"cloud_alone": "Cloud alone", "plan_once": "Plan once", "check_every_step": "Check every step",
          "local_alone": "4B alone", "triggered_logprob_mean": "Triggered log-prob"}
 MARKER = {"cloud_alone": "s", "plan_once": "o", "check_every_step": "D", "local_alone": "^",
@@ -41,11 +45,12 @@ OFFSET = {"cloud_alone": (-9, 0, "right", "center", "point"), "plan_once": (0, 5
           "triggered_logprob_mean": (4, -5, "left", "top", "bar_low")}
 # three hues (all-pairs safe) for the arms the verdict is about; the two context arms in neutral grays
 ON_A = ("cloud_alone", "plan_once", "check_every_step", "triggered_logprob_mean", "local_alone")
-# panel B: outcome slots 7, 8, 4, 5 of the validated palette (adjacent order passes every hard gate)
+# panel B: violet, a dark red (white text 5.9:1), yellow and a neutral gray for "both wrong", so red and gray
+# never depend on hue alone; every segment also carries its count
 OUTCOMES = [("both_right", "Both right", "#6250d6", "#ffffff"),
-            ("lost", "Lost: cloud alone right, arm wrong", "#e34948", "#ffffff"),
-            ("rescued", "Rescued: arm right, cloud alone wrong", "#eda100", "#0b0b0b"),
-            ("both_wrong", "Both wrong", "#e87ba4", "#0b0b0b")]
+            ("lost", "Lost: cloud alone right, arm wrong", "#b8322f", "#ffffff"),
+            ("rescued", "Rescued: arm right, cloud alone wrong", "#f0b400", "#0b0b0b"),
+            ("both_wrong", "Both wrong", "#c9c7bf", "#0b0b0b")]
 ON_B = ("plan_once", "check_every_step", "triggered_logprob_mean", "local_alone")
 
 
@@ -91,15 +96,21 @@ def panel_a(ax, rows, cloud_acc):
     ax.grid(True, color=GRID, linewidth=0.8)
     ax.set_axisbelow(True)
     ax.axhline(cloud_acc - 10, color=TEXT2, linewidth=1.2, linestyle=(0, (4, 3)))
-    ax.text(0.99, cloud_acc - 10, "margin: cloud alone minus 10 points", color=TEXT2, fontsize=7.5,
+    ax.text(0.99, cloud_acc - 10 + 1.2, f"pass line: cloud alone minus 10 points ({cloud_acc - 10:.1f}%)", color=TEXT2,
+            fontsize=7.5,
             ha="right", va="bottom", transform=ax.get_yaxis_transform())
     for r in rows:
         if r["usd"] is None or r["arm"] not in ON_A:
             continue
         if r["lo"] is not None:
-            ax.vlines(r["usd"], r["lo"], r["hi"], color=COLOR[r["arm"]], linewidth=2, zorder=2)
-        ax.scatter([r["usd"]], [r["acc"]], s=64, marker=MARKER[r["arm"]], color=COLOR[r["arm"]],
-                   edgecolor=SURFACE, linewidth=2, zorder=3, label=LABEL[r["arm"]])
+            thin = r["arm"] == "triggered_logprob_mean"
+            ax.vlines(r["usd"], r["lo"], r["hi"], color=COLOR[r["arm"]], linewidth=1 if thin else 2, zorder=2)
+        if r["arm"] == "triggered_logprob_mean":  # exploratory: hollow marker
+            ax.scatter([r["usd"]], [r["acc"]], s=64, marker=MARKER[r["arm"]], facecolor=SURFACE,
+                       edgecolor=COLOR[r["arm"]], linewidth=1.5, zorder=3)
+        else:
+            ax.scatter([r["usd"]], [r["acc"]], s=64, marker=MARKER[r["arm"]], color=COLOR[r["arm"]],
+                       edgecolor=SURFACE, linewidth=2, zorder=3)
         dx, dy, ha, va, anchor = OFFSET[r["arm"]]
         y = {"bar_high": r["hi"], "bar_low": r["lo"]}.get(anchor) if r["lo"] is not None else None
         y = r["acc"] if y is None else y
@@ -107,22 +118,26 @@ def panel_a(ax, rows, cloud_acc):
         if r["arm"] == "cloud_alone":
             extra = "\nno laptop time"
         elif r["arm"] == "local_alone":
-            extra = "\nno cloud calls"
+            extra = "\nno cloud calls; laptop time in the report table"
         elif r["secs"]:
             extra = f"\n{r['secs'] / 60:.1f} laptop min per question"
-        ax.annotate(f"{LABEL[r['arm']]} {r['correct']} of {r['n']} ({r['acc']:.0f}%){extra}", (r["usd"], y),
+        name = LABEL_A.get(r["arm"], LABEL[r["arm"]])
+        ax.annotate(f"{name} {r['correct']} of {r['n']} ({r['acc']:.0f}%){extra}", (r["usd"], y),
                     xytext=(dx, dy), textcoords="offset points", fontsize=7.5, color=TEXT, ha=ha,
                     va=va, zorder=4, linespacing=1.3)
-    ax.set_xlabel("Cloud dollars per question (protocol accounting)", color=TEXT, fontsize=8.5)
+    ax.set_xlabel("Cloud cents per question (protocol accounting)", color=TEXT, fontsize=8.5)
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v * 100:.1f}"))  # positions stay in dollars
+    ax.text(0.01, 0.98, "Bars: interval of the gap to cloud alone", transform=ax.transAxes, ha="left", va="top",
+            fontsize=7.5, color=TEXT2)
     ax.set_ylabel("Accuracy on the 91 (%)", color=TEXT, fontsize=8.5)
     ax.set_xlim(left=-0.001)
     ax.set_ylim(0, 100)
     cloud_usd = next(r["usd"] for r in rows if r["arm"] == "cloud_alone")
     shares = [r["usd"] / cloud_usd for r in rows if r["arm"] in ("plan_once", "check_every_step") and r["usd"]]
-    ax.set_title(f"A. Accuracy against cloud cost: plan once and check every step lie far below the margin,\n"
+    ax.set_title(f"A. Accuracy against cloud cost: plan once and check every step lie far below the pass line,\n"
                  f"at {min(shares):.0%} and {max(shares):.0%} of cloud alone's cloud dollars",
                  color=TEXT, fontsize=9.5, loc="left")
-    ax.legend(frameon=False, fontsize=7.5, loc="lower right", labelcolor=TEXT)
+    # no legend: every point carries its own label
 
 
 def panel_b(ax, rows):
@@ -164,15 +179,18 @@ def panel_b(ax, rows):
 
 
 def draw(rows, cloud_acc, out):
-    fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(7.6, 8.4), dpi=200, gridspec_kw={"height_ratios": [1.25, 1]})
+    fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(7.6, 8.9), dpi=200, gridspec_kw={"height_ratios": [1.25, 1]})
     fig.patch.set_facecolor(SURFACE)
     panel_a(ax_a, rows, cloud_acc)
     panel_b(ax_b, rows)
-    fig.text(0.01, 0.005, "4B worker qwen3:4b, supervisor gemini-3.8-flash, LongHealth at N = 2, one run per arm. "
-             "Panel A bars: cloud alone's accuracy plus the 95% patient cluster\ninterval of the arm's difference "
-             "from cloud alone; a bar wholly below the dashed line means worse. Laptop minutes: the arm's summed "
-             "worker calls.", color=TEXT2, fontsize=6.5)
-    fig.tight_layout(rect=(0, 0.04, 1, 1), h_pad=2.2)
+    fig.text(0.01, 0.005,
+             "4B worker qwen3:4b, supervisor gemini-3.8-flash, LongHealth at N = 2. Panel A bars: 95% patient cluster "
+             "interval of each arm's\ndifference from cloud alone, placed at cloud alone's "
+             f"{cloud_acc:.1f}%; cloud alone has no bar. Verdict only for plan once and check every step:\n"
+             "a bar wholly below the dashed line means worse; triggered log-prob and 4B alone are context, no verdict. "
+             "One run per arm;\nthe three supervised arms are scored from one shared run. Intervals cover patient "
+             "sampling only. Laptop minutes: worker calls only.", color=TEXT2, fontsize=8, linespacing=1.35)
+    fig.tight_layout(rect=(0, 0.085, 1, 1), h_pad=2.2)
     fig.savefig(out + ".png", facecolor=SURFACE)
     fig.savefig(out + ".svg", facecolor=SURFACE)
     plt.close(fig)
