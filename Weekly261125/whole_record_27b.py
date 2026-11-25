@@ -20,6 +20,14 @@ November 23 (note-2026-11-23-27b-alone.md, section 3) fixes the design:
 - the GPU residency check after every call, the GPU lock shared with the other runs, resume, failed
   and halt rows, counts only on the screen; the check reports the largest prompt size.
 
+Changed November 25, after the warmup wr27_warm failed its reply cut check and before any evaluation
+call (section 6 of note-2026-11-25-option-a-rules.md): with no reply schema the model wrote its
+reasoning first and the JSON answer last, 8 of 20 replies used all 300 tokens, and the strict reading
+found a letter in none of the 20. Every call now sends a reply schema, a JSON object with a
+"reasoning" field first and an "answer" field last that holds one letter A to E, and the reply budget
+is 2,048 tokens. The prompt, the model, thinking off, temperature 0, the strict reading and every
+check are unchanged. The warmup check also requires that the strict rule reads every reply.
+
     ollama stop qwen3.8:27b
     BASELINE_LOG_DIR=~/c27_logs python whole_record_27b.py probe --run-id wr27_probe --gguf BLOB
     BASELINE_LOG_DIR=~/c27_logs python whole_record_27b.py run --split warmup --limit 1 --run-id wr27_trace \
@@ -46,7 +54,16 @@ import ollama_guard  # noqa: E402
 import run_shared_c2 as rs  # noqa: E402
 import runlog  # noqa: E402
 
-WORKER_MODEL, NUM_CTX, NUM_PREDICT = "qwen3.8:27b", 65536, 300
+WORKER_MODEL, NUM_CTX, NUM_PREDICT = "qwen3.8:27b", 65536, 2048
+# the reply schema (November 25): the reasoning first, then one letter; cloud alone's strict reader
+# (grader.grade_json) reads the "answer" field of a JSON object, so it reads this reply unchanged
+REPLY_SCHEMA = {
+    "type": "object",
+    "properties": {"reasoning": {"type": "string"},
+                   "answer": {"type": "string", "enum": ["A", "B", "C", "D", "E"]}},
+    "required": ["reasoning", "answer"],
+}
+REPLY_FORMAT = "schema: reasoning, then answer A to E"
 LOG_PREFIX = "whole_record_27b_"
 PROTOCOL = "27B alone, whole record, one call (Option A)"
 MIN_TIMEOUT, PROBE_TIMEOUT = 600, 1800
@@ -61,12 +78,12 @@ class TokenCountHalt(gb.Halt):
 
 
 class WholeWorker(gb.GuardedOllamaWorker):
-    """The guarded worker with no reply schema (cloud alone's prompt asks for JSON itself), no
+    """The guarded worker with the Option A reply schema (REPLY_SCHEMA, since November 25), no
     log-probs and the timeout given for Option A. The residency check is the same: after every call,
     before the reply is used."""
 
     def call(self, prompt, logprobs=False):
-        out = gb.guarded_chat(self.model, prompt, self.num_ctx, self.num_predict, fmt=None, logprobs=False,
+        out = gb.guarded_chat(self.model, prompt, self.num_ctx, self.num_predict, fmt=REPLY_SCHEMA, logprobs=False,
                               post=self.post, retries=self.attempts, sleep=self.sleep, timeout=self.timeout)
         size, vram = self.residency()
         if not vram:
@@ -144,7 +161,8 @@ def cmd_probe(args, make_worker=None, make_counter=None):
     worker = (make_worker or (lambda t: WholeWorker(WORKER_MODEL, NUM_CTX, NUM_PREDICT, timeout=t)))(PROBE_TIMEOUT)
     path = os.path.join(runlog.LOG_DIR, f"{LOG_PREFIX}probe_{args.run_id}.jsonl")
     base = {"run_id": args.run_id, "ollama": worker.env, "counter": getattr(counter, "tag", "test counter"),
-            "worker": f"{WORKER_MODEL}, ctx {NUM_CTX}, think off, guarded {gb.GUARD_TAG}", "timeout_s": PROBE_TIMEOUT}
+            "worker": f"{WORKER_MODEL}, ctx {NUM_CTX}, think off, guarded {gb.GUARD_TAG}", "timeout_s": PROBE_TIMEOUT,
+            "reply_format": REPLY_FORMAT, "reply_budget": NUM_PREDICT}
     fails = []
 
     def check(cond, text):
@@ -264,7 +282,8 @@ def cmd_run(args, make_worker=None, make_counter=None):
                 "q_idx": rec["q_idx"], "attempt": failures.get(key, 0) + 1, "ollama": worker.env,
                 "worker": f"{WORKER_MODEL}, ctx {NUM_CTX}, think off, guarded {gb.GUARD_TAG}",
                 "counter": getattr(counter, "tag", "test counter"), "template_offset": args.template_offset,
-                "timeout_s": args.timeout, "padding_n": rec["padding_n"],
+                "timeout_s": args.timeout, "reply_format": REPLY_FORMAT, "reply_budget": NUM_PREDICT,
+                "padding_n": rec["padding_n"],
                 "padding_patients": rec["padding_patients"], **rs.input_hashes(rec)}
         try:
             row = run_question(rec, worker, counter, args.template_offset)
@@ -332,6 +351,12 @@ def cmd_check(args):
     if args.expect_size_vram:
         check(set(res) == {(args.expect_size, args.expect_size_vram)}, "GPU residency equals the reference")
     check(all(r["prompt_tokens"] + NUM_PREDICT <= NUM_CTX for r in ok), f"every prompt plus {NUM_PREDICT} fits {NUM_CTX:,}")
+    check(all(r.get("reply_format") == REPLY_FORMAT and r.get("reply_budget") == NUM_PREDICT for r in ok),
+          f"every call sent the reply schema with a budget of {NUM_PREDICT} (section 6 of the note of November 25)")
+    readable = sum(1 for r in ok if r["predicted"])
+    if args.split == "warmup":
+        # the warmup gate of section 6: the strict rule reads every reply (counts only, no grade)
+        check(readable == len(ok), f"the strict rule reads a letter in every reply: {readable} of {len(ok)}")
     if ok:
         top = max(ok, key=lambda r: r["prompt_tokens"])
         print(f"      largest prompt: {top['prompt_tokens']:,} tokens as Ollama reports it ({top['patient']} "

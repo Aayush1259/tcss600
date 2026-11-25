@@ -40,7 +40,8 @@ def rec(i, fact=True, split="eval"):
 
 class FakeOllama:
     """mode ok: refuses a prompt over the context (as "truncate": false should); cut: answers it with a
-    cut count; cache: a prompt sent again reports 50 fewer tokens."""
+    cut count; cache: a prompt sent again reports 50 fewer tokens. A prompt with the fact gets a reply in
+    the reply schema (reasoning, then the letter); one without it gets free text that breaks the schema."""
 
     def __init__(self, mode="ok"):
         self.mode, self.calls, self.seen, self.timeouts = mode, 0, set(), []
@@ -50,17 +51,19 @@ class FakeOllama:
         self.timeouts.append(timeout)
         if self.mode == "down":
             raise ConnectionError("refused")
-        assert "format" not in payload and payload["truncate"] is False and payload["think"] is False
+        assert payload["format"] == wr.REPLY_SCHEMA and payload["truncate"] is False and payload["think"] is False
+        assert payload["options"]["num_predict"] == wr.NUM_PREDICT == 2048
         prompt, ctx = payload["messages"][0]["content"], payload["options"]["num_ctx"]
         pt = count(prompt) + OFFSET
         if pt > ctx:
             if self.mode != "cut":
                 return 400, json.dumps({"error": "the input length exceeds the context length"})
-            pt = ctx - 400
+            pt = ctx - wr.NUM_PREDICT - 400
         if self.mode == "cache" and prompt in self.seen:
             pt -= 50
         self.seen.add(prompt)
-        ans = json.dumps({"answer": "B"}) if "FACT" in prompt else "I cannot tell from these records."
+        ans = (json.dumps({"reasoning": "The record states the answer is B.", "answer": "B"}) if "FACT" in prompt
+               else "I cannot tell from these records.")
         return 200, json.dumps({"message": {"content": ans}, "prompt_eval_count": pt, "eval_count": 6,
                                 "done_reason": "stop"})
 
@@ -171,6 +174,41 @@ class WRTests(unittest.TestCase):
         code, out = self.check()
         self.assertEqual(code, 0, out)
         self.assertIn("replies with no letter (counted wrong) 1", out)
+
+    def test_the_reply_schema_is_sent_and_its_reply_is_read_by_the_strict_rule(self):
+        code, out = self.run_wr()
+        self.assertEqual(code, 0, out)
+        r = self.rows()[0]
+        self.assertEqual((r["reply_format"], r["reply_budget"]), (wr.REPLY_FORMAT, 2048))
+        self.assertTrue(r["answer"].startswith('{"reasoning"'))
+        self.assertEqual((r["predicted"], r["grading"]), ("B", "json (json)"))
+        self.assertEqual(list(wr.REPLY_SCHEMA["properties"]), ["reasoning", "answer"])   # reasoning first
+
+    def test_the_warmup_check_needs_every_reply_read(self):
+        self.recs = [rec(1, split="warmup"), rec(2, fact=False, split="warmup")]
+        self.run_wr(split="warmup")
+        code, out = self.check(split="warmup")
+        self.assertEqual(code, 1, out)
+        self.assertIn("FAIL  the strict rule reads a letter in every reply: 1 of 2", out)
+        self.recs = [rec(1, split="warmup"), rec(3, split="warmup")]
+        self.dir = tempfile.mkdtemp(dir=TMP)
+        runlog.LOG_DIR = self.dir
+        self.run_wr(split="warmup")
+        code, out = self.check(split="warmup")
+        self.assertEqual(code, 0, out)
+        self.assertIn("PASS  the strict rule reads a letter in every reply: 2 of 2", out)
+
+    def test_a_log_from_the_old_setting_fails_the_check(self):
+        self.run_wr()
+        path = os.path.join(self.dir, "whole_record_27b_eval_wr1.jsonl")
+        rows = runlog.read_rows(path)
+        with open(path, "w", encoding="utf-8") as f:
+            for r in rows:
+                r.pop("reply_format", None)
+                f.write(json.dumps(r) + "\n")
+        code, out = self.check()
+        self.assertEqual(code, 1, out)
+        self.assertIn("FAIL  every call sent the reply schema", out)
 
     def test_resume_makes_no_new_call(self):
         self.run_wr()

@@ -47,3 +47,25 @@ The one traced warmup question (patient_01 q2) passed every check. Its reply hel
 - The second reading is applied the same way to cloud alone's replies, and the difference and the patient cluster interval are reported for both readings, on the 91 and on the 200.
 - I also report how many Option A replies have no letter in the primary reading but one letter in the second.
 - The run does not change. The log keeps every full reply, so the second reading is computed when scoring.
+
+## 6. Added November 25, after the failed warmup and before any evaluation call: the reply schema
+
+What happened. The warmup `wr27_warm` (the 20 warmup questions, which are not part of the 200) passed every count, GPU and truncation check, but 8 of its 20 replies used all 300 reply tokens, against the limit of 1 percent (amendment 2, section 3). I then counted the shape of the replies and looked at no grade: no reply started with "{"; the model wrote its reasoning first and the JSON answer last; 12 of the 20 reached one letter in the answer field and none of the 8 cut replies did; the strict reading found a letter in none of the 20. The cause is my own setting of November 23 (thinking off, 300 tokens, no reply schema), which did not match cloud alone: cloud alone ran with thinking low and no reply limit, so it reasoned silently and returned JSON only. My trace of one question checked every count but not that the strict rule could read the reply; it should have.
+
+The change, made once and before any evaluation call:
+
+- Every call sends a reply schema: a JSON object with a "reasoning" text field first and an "answer" field last, which must be one letter from A to E. The reply budget is 2,048 tokens; the largest prompt of the 200 (39,051 tokens) plus 2,048 fits the context of 65,536.
+- Unchanged: cloud alone's prompt, qwen3.8:27b (digest `aaee06c39dcf`), Ollama 0.40.3, the padded record at N = 2, the context of 65,536, thinking off, temperature 0, "truncate": false, the template overhead of 12 and the timeout of 600 seconds from the probe, the GPU reference, the strict reading (`grader.grade_json`, which reads the "answer" field of a JSON object), the second reading of section 5, and every rule of sections 1 to 4.
+- Differences I state now: the reasoning is written in the reply, while cloud alone's was silent; the schema forces a letter, so a guess scores 20 percent, while a cloud alone reply could be unreadable and count wrong; Option B's schema allowed "none" for each chunk.
+- The failed warmup stays on record under its run id `wr27_warm` and is not used.
+- No rule of sections 1 to 3 changes, so the last sentence of section 3 holds. The reply schema and budget were settings of my note of November 23, and the 4B work set the precedent for a change found in a warmup: that warmup was set aside, the rule was written, and a fresh warmup passed before the evaluation (amendment 2, section 5).
+
+Steps and gates:
+
+- One question traced (`wr27_trace2`): the reply starts with "{", the reasoning comes before the answer, the answer is one letter, the call stops normally under 2,048 tokens, and the prompt count equals the own count plus 12 and the count of the same question in `wr27_warm`. A fault in my code found here may be fixed and traced again; if the model does not follow the schema, Option A stops.
+- The 20 warmup questions (`wr27_warm2`): every check of the script passes, with no reply at 2,048 tokens, a letter read by the strict rule in all 20, and the median call times 200 under 14 hours. If any of these fails, Option A stops and is reported as a limitation; no other setting is tried.
+- The 200 start only after Prof. Cai's explicit yes, asked in Weekly Report 8, and no later than November 30 at 12:00. Without a yes by November 30 at 10:00, Option A is not run and is reported as a limitation.
+
+How the result is read, fixed now. The verdict against cloud alone keeps the rule of section 4 of my note of November 23, on the 91, with the 200 reported beside it. Because the reasoning is written and the letter is forced, a result close to cloud alone is read as evidence that 27B reading the whole record may not need supervision; a result that is worse or inconclusive is read as a lower bound, not as evidence that 27B cannot read the whole record. I also report how many cloud alone replies the strict rule could not read, and the question by question comparison with Option B and with the supervised 27B arms.
+
+This section does not change after the fresh warmup's result is seen.
