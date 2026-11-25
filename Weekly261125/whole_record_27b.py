@@ -82,7 +82,13 @@ class WholeWorker(gb.GuardedOllamaWorker):
 class GgufCounter:
     """A text's length in the model's own vocabulary: the tokenizer stored in the model's GGUF file,
     read by llama-cpp-python with vocab_only (no weights are loaded). No chat template is applied;
-    its fixed overhead is measured by the probe."""
+    its fixed overhead is measured by the probe.
+
+    The text is counted as the model receives it. Ollama's renderer for this model drops whitespace at
+    the end of a message (checked on November 25, before the probe: "alpha beta gamma" with 0, 1 and 2
+    final newlines all gave 15 prompt tokens, against an own count of 3, 4 and 4), and every Option A
+    prompt ends with a newline, so trailing whitespace is removed before counting. On the 4,350 Option B
+    prompts, which have none, Ollama's count was the own count plus 12 on every prompt."""
 
     def __init__(self, path):
         import llama_cpp
@@ -91,7 +97,7 @@ class GgufCounter:
         self.tag = f"gguf vocab {os.path.basename(path)[:19]}, llama-cpp-python {llama_cpp.__version__}"
 
     def __call__(self, text):
-        return len(self.llm.tokenize(text.encode("utf-8"), add_bos=False, special=False))
+        return len(self.llm.tokenize(text.rstrip().encode("utf-8"), add_bos=False, special=False))
 
 
 def default_counter(args):

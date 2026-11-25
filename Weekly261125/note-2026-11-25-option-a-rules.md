@@ -28,3 +28,12 @@ If that count cannot run by November 27 at 18:00, warns that it does not know th
 - Anything not run and checked by December 4 is reported as a limitation, as the note of November 23 says.
 
 These rules do not change after any Option A result is seen.
+
+## 4. Added November 25, before the probe: how the own count treats the end of a prompt
+
+Two checks made before any Option A call, with no study text sent to the model:
+
+- On all 4,350 Option B prompts, rebuilt exactly and counted with the model's own tokenizer, the prompt tokens Ollama logged were the own count plus 12, on every prompt, the first of the run included. So the own count agrees with Ollama, and the prompt cache never lowers Ollama's count.
+- Ollama builds this model's chat format with a built-in renderer that cannot be read. Three short prompts, "alpha beta gamma" with 0, 1 and 2 final newlines, all gave 15 prompt tokens, against an own count of 3, 4 and 4. So the renderer drops whitespace at the end of a message.
+
+Every Option A prompt ends with a newline. The own count therefore counts each prompt with its trailing whitespace removed, as the model receives it (a one-line change to `GgufCounter` in `whole_record_27b.py`, with a test). Nothing else in sections 1 to 3 changes.

@@ -9,6 +9,7 @@ import os
 import shutil
 import sys
 import tempfile
+import types
 import unittest
 from unittest import mock
 
@@ -206,6 +207,21 @@ class WRTests(unittest.TestCase):
                 f.write("\n".join(lines) + "\n")
             code, out = self.check("--ollama-journal", path)
             self.assertEqual(code, want, out)
+
+    def test_own_count_drops_final_whitespace_as_the_renderer_does(self):
+        class FakeLlama:                     # one token per byte
+            def __init__(self, model_path, vocab_only, verbose):
+                self.args = (model_path, vocab_only, verbose)
+
+            def tokenize(self, data, add_bos, special):
+                assert (add_bos, special) == (False, False)
+                return list(data)
+        fake = types.SimpleNamespace(Llama=FakeLlama, __version__="test")
+        with mock.patch.dict(sys.modules, {"llama_cpp": fake}):
+            c = wr.GgufCounter("/models/blob")
+        self.assertEqual(c.llm.args, ("/models/blob", True, False))
+        self.assertEqual([c("abc"), c("abc\n"), c("abc\n\n"), c("abc \n")], [3, 3, 3, 3])
+        self.assertEqual(c("a\nb\n"), 3)     # only the end is trimmed
 
     def test_shares_the_gpu_lock(self):
         lock = os.path.join(rs.HERE, ".gpu.lock")
