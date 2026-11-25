@@ -37,3 +37,13 @@ Two checks made before any Option A call, with no study text sent to the model:
 - Ollama builds this model's chat format with a built-in renderer that cannot be read. Three short prompts, "alpha beta gamma" with 0, 1 and 2 final newlines, all gave 15 prompt tokens, against an own count of 3, 4 and 4. So the renderer drops whitespace at the end of a message.
 
 Every Option A prompt ends with a newline. The own count therefore counts each prompt with its trailing whitespace removed, as the model receives it (a one-line change to `GgufCounter` in `whole_record_27b.py`, with a test). Nothing else in sections 1 to 3 changes.
+
+## 5. Added November 25, before the warmup: a second, descriptive reading of the reply
+
+The one traced warmup question (patient_01 q2) passed every check. Its reply held a JSON answer field with one letter, plus other text, so cloud alone's reading, which needs the whole reply to be JSON, found no letter. Whether that letter is correct has not been looked at. No other Option A answer exists.
+
+- The primary reading does not change: cloud alone's rule (`grader.grade_json`); a reply with no letter is wrong. The verdict against cloud alone ("close", "worse" or "inconclusive", section 4 of the note of November 23) uses only this reading.
+- A second reading is reported beside it, descriptive, with no verdict: every place in the reply where an "answer" field is followed by a colon and a quoted single letter A to E (either case) is read; if all of them give the same letter, that letter is the answer; if there is none, or there are two different letters, the reply has no letter and is wrong. The letter is then graded against the gold option exactly as in the primary reading.
+- The second reading is applied the same way to cloud alone's replies, and the difference and the patient cluster interval are reported for both readings, on the 91 and on the 200.
+- I also report how many Option A replies have no letter in the primary reading but one letter in the second.
+- The run does not change. The log keeps every full reply, so the second reading is computed when scoring.
