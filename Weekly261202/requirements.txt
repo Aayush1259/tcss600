@@ -1,0 +1,9 @@
+# Packages the code imports, at the versions used (laptop, Python 3.11.17).
+google-genai==2.29.0
+ollama==0.6.3
+pydantic==2.14.1
+# Lab machine only (Python 3.14.7): the own token count of Option A.
+llama-cpp-python==0.3.38
+# Chart only (Weekly261118/chart_a.py).
+matplotlib
+# Weeks 1 to 5 only: the Minions library, installed from https://github.com/HazyResearch/minions
